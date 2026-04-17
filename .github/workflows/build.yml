@@ -31,13 +31,13 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: "22"
-          cache: "npm"
 
       - name: Install dependencies
         run: |
           if [ -f yarn.lock ]; then yarn --frozen-lockfile
           elif [ -f package-lock.json ]; then npm ci
           elif [ -f pnpm-lock.yaml ]; then corepack enable pnpm && pnpm i --frozen-lockfile
+          else npm install
           fi
 
       - name: Lint
@@ -80,7 +80,7 @@ jobs:
           images: ${{ env.REGISTRY }}/${{ env.ORG }}/${{ vars.STUDENT_NAME }}-api
           tags: |
             type=sha,prefix=sha-,format=short
-            type=raw,value=candidate,enable=${{ github.event_name == 'push' }}
+            type=raw,value=stable,enable=${{ github.event_name == 'push' }}
           labels: |
             academy.student=${{ vars.STUDENT_NAME }}
             academy.service=api
