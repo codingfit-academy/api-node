@@ -38,6 +38,15 @@ app.get('/', (req, res) => {
 })
 
 
+// ── 프론트용 공개 설정 (지도 API 키 등 — 브라우저에 노출되는 값만) ──
+app.get('/config', (req, res) => {
+  res.json({
+    naverMapsClientId: process.env.NAVER_MAPS_CLIENT_ID || '',
+    kakaoMapsAppKey:   process.env.KAKAO_MAPS_APP_KEY   || '',
+  })
+})
+
+
 // ── 예시 CRUD (items 테이블) ───────────────────────────────────
 // 테이블이 없으면 자동 생성
 async function initDb() {
