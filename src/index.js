@@ -10,14 +10,14 @@
  *   아래 예시처럼 등록하세요.
  * ─────────────────────────────────────────────────────────────
  */
-require('dotenv').config()
+const config = require('./config')
 
 const express = require('express')
 const cors    = require('cors')
 const { query } = require('./db')
 
 const app  = express()
-const PORT = process.env.PORT || 8000
+const PORT = config.port
 
 app.use(cors())
 app.use(express.json())
@@ -38,12 +38,9 @@ app.get('/', (req, res) => {
 })
 
 
-// ── 프론트용 공개 설정 (지도 API 키 등 — 브라우저에 노출되는 값만) ──
+// ── 프론트용 공개 설정 (지도 API 키 등 — config.public 참고) ──
 app.get('/config', (req, res) => {
-  res.json({
-    naverMapsClientId: process.env.NAVER_MAPS_CLIENT_ID || '',
-    kakaoMapsAppKey:   process.env.KAKAO_MAPS_APP_KEY   || '',
-  })
+  res.json(config.public)
 })
 
 
